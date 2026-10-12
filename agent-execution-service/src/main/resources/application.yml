@@ -17,8 +17,9 @@ spring:
 portkey:
   api-key: ${PORTKEY_API_KEY:}
   base-url: ${PORTKEY_BASE_URL:https://api.portkey.ai/v1}
-  default-model: gpt-4o-mini
-  strong-model: gpt-4o
+  provider: ${PORTKEY_PROVIDER:@aws-bedrock-use2}
+  default-model: ${PORTKEY_DEFAULT_MODEL:us.anthropic.claude-haiku-4-5-20251001-v1:0}
+  strong-model: ${PORTKEY_STRONG_MODEL:us.anthropic.claude-sonnet-4-6}
 
 # Resilience4j configuration
 resilience4j:

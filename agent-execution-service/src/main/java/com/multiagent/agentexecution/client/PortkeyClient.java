@@ -26,13 +26,14 @@ public class PortkeyClient {
     public PortkeyClient(
             WebClient.Builder webClientBuilder,
             @Value("${portkey.api-key}") String apiKey,
-            @Value("${portkey.base-url}") String baseUrl
+            @Value("${portkey.base-url}") String baseUrl,
+            @Value("${portkey.provider}") String provider
     ) {
         this.apiKey = apiKey;
         this.webClient = webClientBuilder
                 .baseUrl(baseUrl)
-                .defaultHeader("Authorization", "Bearer " + apiKey)
                 .defaultHeader("x-portkey-api-key", apiKey)
+                .defaultHeader("x-portkey-provider", provider)
                 .build();
     }
 
@@ -60,11 +61,19 @@ public class PortkeyClient {
                 .uri("/chat/completions")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(requestBody)
-                .retrieve()
-                .bodyToMono(Map.class)
+                .exchangeToMono(response -> {
+                    if (response.statusCode().isError()) {
+                        return response.bodyToMono(String.class)
+                                .defaultIfEmpty("(empty body)")
+                                .flatMap(body -> {
+                                    log.error("Portkey API error {}: {}", response.statusCode(), body);
+                                    return Mono.error(new RuntimeException(
+                                            "Portkey " + response.statusCode() + ": " + body));
+                                });
+                    }
+                    return response.bodyToMono(Map.class);
+                })
                 .map(response -> {
-                    // Extract content from OpenAI-compatible response:
-                    // { "choices": [ { "message": { "content": "..." } } ] }
                     var choices = (List<Map<String, Object>>) response.get("choices");
                     if (choices == null || choices.isEmpty()) {
                         throw new RuntimeException("Empty choices in Portkey response");

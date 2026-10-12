@@ -9,7 +9,7 @@ Return a JSON array of steps. Each step has:
 - "description": what this step does (short, imperative)
 - "type": one of LLM_CALL, TOOL_CALL, AGGREGATE
 - "depends_on": array of step indices (0-based) this step waits for. Use [] if no dependencies.
-- "input_template": the prompt or instruction for this step. Use {{prev_N}} to reference output from step N.
+- "input_template": the prompt or instruction for this step. Use {prev_N} to reference output from step N.
 - "critical": true if this step's output should be evaluated with multiple candidates
 
 Rules:

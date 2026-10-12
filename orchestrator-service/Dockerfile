@@ -1,21 +1,23 @@
 # Stage 1: Build
-FROM eclipse-temurin:21-jdk AS build
+FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /app
 
-# Copy the entire project context (parent POM, proto, and orchestrator-service)
+# Copy parent POM and module POMs first (dependency caching)
 COPY pom.xml ./pom.xml
-COPY proto/ ./proto/
-COPY orchestrator-service/ ./orchestrator-service/
+COPY orchestrator-service/pom.xml ./orchestrator-service/pom.xml
+COPY agent-execution-service/pom.xml ./agent-execution-service/pom.xml
 
-# Build only the orchestrator-service module (and its dependencies)
-RUN ./mvnw -pl orchestrator-service -am package -DskipTests || \
-    mvn -pl orchestrator-service -am package -DskipTests
+# Copy proto definitions and source code
+COPY proto/ ./proto/
+COPY orchestrator-service/src/ ./orchestrator-service/src/
+
+# Build only the orchestrator-service module
+RUN mvn -pl orchestrator-service -am package -DskipTests -q
 
 # Stage 2: Runtime
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 
-# Create non-root user for security
 RUN groupadd --system appgroup && useradd --system --gid appgroup appuser
 
 COPY --from=build /app/orchestrator-service/target/*.jar app.jar

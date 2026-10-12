@@ -15,5 +15,6 @@ grpc:
 portkey:
   api-key: test-key
   base-url: https://localhost/v1
+  provider: test-provider
   default-model: test-model
   strong-model: test-model

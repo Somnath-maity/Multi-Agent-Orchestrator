@@ -56,6 +56,9 @@ services:
       SPRING_DATA_REDIS_HOST: redis
       PORTKEY_API_KEY: ${PORTKEY_API_KEY}
       PORTKEY_BASE_URL: ${PORTKEY_BASE_URL:-https://api.portkey.ai/v1}
+      PORTKEY_PROVIDER: ${PORTKEY_PROVIDER:-@aws-bedrock-use2}
+      PORTKEY_DEFAULT_MODEL: ${PORTKEY_DEFAULT_MODEL:-us.anthropic.claude-haiku-4-5-20251001-v1:0}
+      PORTKEY_STRONG_MODEL: ${PORTKEY_STRONG_MODEL:-us.anthropic.claude-sonnet-4-6}
     depends_on:
       redis:
         condition: service_healthy
