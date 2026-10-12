@@ -1,18 +1,26 @@
 # Multi-Agent Workflow Orchestrator
 
+<<<<<<< HEAD
 A Gen AI multi-agent system built to go from React/JS + basic Java OOP to a full-stack
 Gen AI Java developer — Spring Boot, gRPC microservices, Docker, Postgres, Redis,
 security, and an LLM gateway (Portkey), applied to a real problem instead of a toy demo.
+=======
+A Gen AI multi-agent system made with React/JS, Spring Boot, gRPC microservices, Docker, Postgres, Redis,
+security, and an LLM gateway (Portkey).
+>>>>>>> 0c5a4c0dd942d40f04c84e3157867ec36b0aa9fe
 
 **The idea:** a user submits a goal (e.g. *"research X and draft a summary report"*).
 A **planner** breaks it into a DAG of steps. A **worker** executes each step (LLM call
 or tool call) through Portkey, with schema validation, retries, caching, and
 response re-ranking. The client watches progress stream in.
 
+<<<<<<< HEAD
 Design principle for this whole project: **right-sized, not over-engineered.**
 Every piece below (gRPC, caching, retries, two services instead of one) is included
 because it solves a real problem in this system — not because it looks impressive on
 a resume.
+=======
+>>>>>>> 0c5a4c0dd942d40f04c84e3157867ec36b0aa9fe
 
 ---
 
