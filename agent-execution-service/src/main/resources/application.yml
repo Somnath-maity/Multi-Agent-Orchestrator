@@ -1,0 +1,41 @@
+server:
+  port: 8081
+
+grpc:
+  server:
+    port: 9090
+
+spring:
+  application:
+    name: agent-execution-service
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+# Portkey LLM Gateway configuration
+portkey:
+  api-key: ${PORTKEY_API_KEY:}
+  base-url: ${PORTKEY_BASE_URL:https://api.portkey.ai/v1}
+  default-model: gpt-4o-mini
+  strong-model: gpt-4o
+
+# Resilience4j configuration
+resilience4j:
+  retry:
+    instances:
+      portkey-call:
+        max-attempts: 3
+        wait-duration: 2s
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2
+  circuitbreaker:
+    instances:
+      portkey-call:
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 30s
+
+logging:
+  level:
+    com.multiagent.agentexecution: DEBUG

@@ -1,0 +1,364 @@
+/* ── Reset & Base ─────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16213e;
+  --bg-card: #0f3460;
+  --bg-input: #1a1a3e;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0b8;
+  --text-muted: #6c6c80;
+  --accent: #4fc3f7;
+  --accent-hover: #29b6f6;
+  --border: #2a2a4a;
+  --border-light: #3a3a5a;
+  --status-pending: #6c6c80;
+  --status-running: #4fc3f7;
+  --status-succeeded: #66bb6a;
+  --status-failed: #ef5350;
+  --status-skipped: #fdd835;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── App Layout ──────────────────────────────────── */
+.app {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.app-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+
+.app-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.app-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Card ─────────────────────────────────────────── */
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+/* ── Form ─────────────────────────────────────────── */
+.workflow-form {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.workflow-input {
+  flex: 1;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.workflow-input::placeholder {
+  color: var(--text-muted);
+}
+
+.workflow-input:focus {
+  border-color: var(--accent);
+}
+
+.workflow-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn {
+  padding: 0.65rem 1.25rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg-primary);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-light);
+}
+
+.btn-secondary:hover {
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
+.error-message {
+  color: var(--status-failed);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+/* ── Status Badge ─────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.badge-pending {
+  background: rgba(108, 108, 128, 0.2);
+  color: var(--status-pending);
+}
+
+.badge-running {
+  background: rgba(79, 195, 247, 0.15);
+  color: var(--status-running);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.badge-succeeded {
+  background: rgba(102, 187, 106, 0.15);
+  color: var(--status-succeeded);
+}
+
+.badge-failed {
+  background: rgba(239, 83, 80, 0.15);
+  color: var(--status-failed);
+}
+
+.badge-skipped {
+  background: rgba(253, 216, 53, 0.15);
+  color: var(--status-skipped);
+}
+
+/* ── Workflow Progress ────────────────────────────── */
+.workflow-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.workflow-goal {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.progress-bar.succeeded {
+  background: var(--status-succeeded);
+}
+
+.progress-bar.failed {
+  background: var(--status-failed);
+}
+
+/* ── Steps List ───────────────────────────────────── */
+.steps-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.step-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  transition: border-color 0.3s;
+}
+
+.step-item.running {
+  border-color: var(--status-running);
+}
+
+.step-item.succeeded {
+  border-color: var(--status-succeeded);
+}
+
+.step-item.failed {
+  border-color: var(--status-failed);
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.step-expand {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.step-expand.open {
+  transform: rotate(90deg);
+}
+
+.step-type {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: rgba(79, 195, 247, 0.1);
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+}
+
+.step-name {
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.step-attempts {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.step-output {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: var(--bg-primary);
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  font-family: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.workflow-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+/* ── Loading ──────────────────────────────────────── */
+.loading-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--border-light);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin-right: 0.4rem;
+  vertical-align: middle;
+}
+
+/* ── Animations ───────────────────────────────────── */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Responsive ───────────────────────────────────── */
+@media (max-width: 600px) {
+  .app {
+    padding: 1rem 0.75rem;
+  }
+
+  .app-header h1 {
+    font-size: 1.35rem;
+  }
+
+  .workflow-form {
+    flex-direction: column;
+  }
+
+  .workflow-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

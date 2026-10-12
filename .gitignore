@@ -1,0 +1,22 @@
+# Secrets
+.env
+
+# Java / Maven
+**/target/
+*.class
+*.jar
+*.war
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node (frontend has its own .gitignore too)
+node_modules/
+dist/

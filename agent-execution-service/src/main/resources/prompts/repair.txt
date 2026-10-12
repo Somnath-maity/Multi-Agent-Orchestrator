@@ -1,0 +1,12 @@
+The following output was generated but failed JSON schema validation.
+
+Original prompt:
+{{original_prompt}}
+
+Invalid output:
+{{invalid_output}}
+
+Validation errors:
+{{errors}}
+
+Please regenerate the output, fixing the validation errors. Return ONLY the corrected JSON with no additional text.

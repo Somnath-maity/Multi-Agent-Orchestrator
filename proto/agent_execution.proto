@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package com.multiagent.proto;
+
+option java_multiple_files = true;
+option java_package = "com.multiagent.proto";
+
+service AgentExecutionService {
+  rpc ExecuteStep (StepRequest) returns (StepResult);
+}
+
+message StepRequest {
+  string step_id = 1;
+  string workflow_id = 2;
+  StepType type = 3;
+  string input = 4;
+  string prompt_template_id = 5;
+  map<string, string> prompt_variables = 6;
+  string output_schema = 7;
+  bool critical = 8;
+  int32 max_candidates = 9;
+}
+
+message StepResult {
+  string step_id = 1;
+  bool success = 2;
+  string output = 3;
+  string error = 4;
+  double eval_score = 5;
+  int32 tokens_used = 6;
+  string model_used = 7;
+}
+
+enum StepType {
+  STEP_TYPE_UNSPECIFIED = 0;
+  PLAN = 1;
+  LLM_CALL = 2;
+  TOOL_CALL = 3;
+  AGGREGATE = 4;
+}

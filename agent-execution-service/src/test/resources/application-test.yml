@@ -1,0 +1,19 @@
+spring:
+  data:
+    redis:
+      repositories:
+        enabled: false
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+
+grpc:
+  server:
+    port: -1
+
+portkey:
+  api-key: test-key
+  base-url: https://localhost/v1
+  default-model: test-model
+  strong-model: test-model
